@@ -12,9 +12,14 @@ public class NormalPlayer implements Player {
         int position;
         while (!isLegalMove){
             position = sc.nextInt();
-            if(board.setChoice(position-1, sign)){
+            if(board.isAvilable(position-1)){
+                board.setChoice(position-1, sign);
                 isLegalMove = true;
+            }else{
+                System.out.println("Wrong position");
             }
+
+
         }
 
     }

@@ -1,4 +1,4 @@
-public class Board {
+public class Board implements Cloneable {
     private int size;
 
     public int getSize() {
@@ -6,6 +6,10 @@ public class Board {
     }
 
     private Sign[][] boardArray;
+
+    public void setBoardArray(Sign[][] boardArray) {
+        this.boardArray = boardArray;
+    }
 
     public Board(int size) {
         this.size = size;
@@ -47,16 +51,52 @@ public class Board {
             System.out.println("");
         }
     }
-    public boolean setChoice(int position, Sign sign){
+
+    public Sign getSignAt(int x, int y){
+        return(boardArray[x][y]);
+    }
+    public boolean isAvilable(int x, int y){
+        if(boardArray[x][y] == Sign.EMPTY){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public boolean isAvilable(int position){
         int x = position/size;
         int y = position%size;
         if(boardArray[x][y] == Sign.EMPTY){
-            boardArray[x][y] = sign;
             return true;
         }else{
-            System.out.println("This position is taken");
             return false;
         }
+    }
+    public void setChoice(int position, Sign sign){
+        int x = position/size;
+        int y = position%size;
 
+            boardArray[x][y] = sign;
+
+
+    }
+    public void setChoice(int x, int y, Sign sign){
+
+            boardArray[x][y] = sign;
+
+    }
+    public boolean isMoveAvilable(){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(boardArray[i][j] == Sign.EMPTY){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

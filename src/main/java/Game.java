@@ -44,16 +44,25 @@ public class Game {
 
     private void play() {
         while (true){
+            clearConsole();
             board.showBoard();
             if(isFinished()) break;
-            player1.makeMove(board, Sign.CROSS);
+            player2.makeMove(board, Sign.CROSS);
+            clearConsole();
             board.showBoard();
             if(isFinished()) break;
-            player2.makeMove(board, Sign.CIRCLE);
+
+            player1.makeMove(board, Sign.CIRCLE);
+
         }
         endGame();
 
 
+    }
+    private void clearConsole(){
+        for (int i = 0; i < 50; i++) {
+            System.out.println("");
+        }
     }
     private boolean isFinished(){
         Sign boardArray[][] = board.getBoardArray();
