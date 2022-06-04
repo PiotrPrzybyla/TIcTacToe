@@ -1,5 +1,5 @@
 public class AlphaBeta {
-    private static final int MAX_DEPTH = 12;
+    private static final int MAX_DEPTH = 3;
 
 
 

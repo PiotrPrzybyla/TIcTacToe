@@ -66,7 +66,7 @@ public class Game {
     }
     private boolean isFinished(){
         Sign boardArray[][] = board.getBoardArray();
-        if(checkDiagonal() || checkVertical() || checkHorizontal()){
+        if(checkFirstDiagonal() || checkSecondDiagonal() || checkVertical() || checkHorizontal()){
             return true;
         }
         if(checkDraw()){
@@ -114,38 +114,47 @@ public class Game {
         }
         return false;
     }
-    private boolean checkDiagonal(){
-        int firstDiagonal=1, secondDiagonal=1;
-        for (int i = 0; i < board.getSize() -1; i++) {
-            if((board.getBoardArray()[i][i] == board.getBoardArray()[i+1][i+1]) &&
-                (board.getBoardArray()[i][i] != Sign.EMPTY)){
-                    firstDiagonal++;
+    private boolean checkFirstDiagonal(){
+        int Xsum = 0;
+        int Osum = 0;
+        for (int i = 0; i < board.getSize(); i++) {
+            if(board.getSignAt(i, i) == Sign.CROSS){
+                Xsum++;
             }
-            if(firstDiagonal==board.getSize()){
-                if(board.getBoardArray()[i][i] == Sign.CROSS){
-                    winner = player1;
-                }else{
-                    winner=player2;
-                }
-                return true;
-            }
-            if((board.getBoardArray()[i][board.getSize()-i-1] == board.getBoardArray()[i+1][board.getSize() -i -2]) &&
-                    (board.getBoardArray()[i][i] != Sign.EMPTY)){
-                secondDiagonal++;
-
-            }
-            if(secondDiagonal==board.getSize()){
-                if(board.getBoardArray()[i][board.getSize()-i-1] == Sign.CROSS){
-                    winner = player1;
-                }else{
-                    winner=player2;
-                }
-                return true;
+            if(board.getSignAt(i, i) == Sign.CIRCLE){
+                Osum++;
             }
         }
-       return false;
-
+        if (Xsum == board.getSize()) {
+            winner = player2;
+            return true;
+        } else if (Osum == board.getSize()) {
+            winner = player1;
+            return true;
+        }
+        return false;
     }
+    private boolean checkSecondDiagonal(){
+        int Xsum = 0;
+        int Osum = 0;
+        for (int i = 0; i < board.getSize(); i++) {
+            if(board.getSignAt(i, board.getSize()-1-i) == Sign.CROSS){
+                Xsum++;
+            }
+            if(board.getSignAt(i, board.getSize()-1-i) == Sign.CIRCLE){
+                Osum++;
+            }
+        }
+        if (Xsum == board.getSize()) {
+            winner = player2;
+            return true;
+        } else if (Osum == board.getSize()) {
+            winner = player1;
+            return true;
+        }
+        return false;
+    }
+
     private boolean checkDraw(){
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
