@@ -12,7 +12,8 @@ public class AIPlayer implements Player {
                 currentArray[i][j] = board.getBoardArray()[i][j];
             }
         }
-        int[] choice = MiniMax.getBestMove(board, currentArray);
+//        int[] choice = MiniMax.getBestMove(board, currentArray);
+        int[] choice = AlphaBeta.getBestMove(board);
 //        board.setBoardArray(currentArray);
         board.setChoice(choice[0], choice[1], sign);
     }

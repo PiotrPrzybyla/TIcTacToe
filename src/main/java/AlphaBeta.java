@@ -1,8 +1,11 @@
-public class MiniMax {
-    private static final int MAX_DEPTH = 6;
+public class AlphaBeta {
+    private static final int MAX_DEPTH = 12;
 
 
-    public static int miniMax(Board board, int depth, boolean isMax) {
+
+
+    public static int miniMax(Board board, int depth, int alpha, int beta,
+                              boolean isMax) {
         int boardVal = evaluateBoard(board);
 
         // Terminal node (win/lose/draw) or max depth reached.
@@ -19,8 +22,12 @@ public class MiniMax {
                     if (board.isAvilable(row, col)) {
                         board.setChoice(row, col, Sign.CROSS);
                         highestVal = Math.max(highestVal, miniMax(board,
-                                depth - 1, false));
+                                depth - 1, alpha, beta, false));
                         board.setChoice(row, col, Sign.EMPTY);
+                        alpha = Math.max(alpha, highestVal);
+                        if (alpha >= beta) {
+                            return highestVal;
+                        }
                     }
                 }
             }
@@ -33,8 +40,12 @@ public class MiniMax {
                     if (board.isAvilable(row, col)) {
                         board.setChoice(row, col, Sign.CIRCLE);
                         lowestVal = Math.min(lowestVal, miniMax(board,
-                                depth - 1, true));
+                                depth - 1, alpha, beta, true));
                         board.setChoice(row, col, Sign.EMPTY);
+                        beta = Math.min(beta, lowestVal);
+                        if (beta <= alpha) {
+                            return lowestVal;
+                        }
                     }
                 }
             }
@@ -42,8 +53,7 @@ public class MiniMax {
         }
     }
 
-
-    public static int[] getBestMove(Board board, Sign[][] currentBoard) {
+    public static int[] getBestMove(Board board) {
         int[] bestMove = new int[]{-1, -1};
         int bestValue = Integer.MIN_VALUE;
 
@@ -51,7 +61,8 @@ public class MiniMax {
             for (int col = 0; col < board.getSize(); col++) {
                 if (board.isAvilable(row, col)) {
                     board.setChoice(row, col, Sign.CROSS);
-                    int moveValue = miniMax(board, MAX_DEPTH, false);
+                    int moveValue = miniMax(board, MAX_DEPTH, Integer.MIN_VALUE,
+                            Integer.MAX_VALUE, false);
                     board.setChoice(row, col, Sign.EMPTY);
                     if (moveValue > bestValue) {
                         bestMove[0] = row;

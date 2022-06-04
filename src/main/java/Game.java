@@ -47,12 +47,12 @@ public class Game {
             clearConsole();
             board.showBoard();
             if(isFinished()) break;
-            player2.makeMove(board, Sign.CROSS);
+            player1.makeMove(board, Sign.CIRCLE);
             clearConsole();
             board.showBoard();
             if(isFinished()) break;
 
-            player1.makeMove(board, Sign.CIRCLE);
+            player2.makeMove(board, Sign.CROSS);
 
         }
         endGame();
