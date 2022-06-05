@@ -6,6 +6,11 @@ public class Board implements Cloneable {
     }
 
     private Sign[][] boardArray;
+    private Sign winner;
+
+    public Sign getWinner() {
+        return winner;
+    }
 
     public void setBoardArray(Sign[][] boardArray) {
         this.boardArray = boardArray;
@@ -94,7 +99,106 @@ public class Board implements Cloneable {
         }
         return false;
     }
-
+    public boolean isFinished(){
+        if(checkFirstDiagonal() || checkSecondDiagonal() || checkVertical() || checkHorizontal()){
+            return true;
+        }
+        if(checkDraw()){
+            return true;
+        }
+        return false;
+    }
+    private boolean checkVertical(){
+        for (int i = 0; i < size; i++) {
+            int counter =1;
+            for (int j = 0; j < size-1; j++) {
+                if((boardArray[i][j] == boardArray[i][j+1])&&
+                        (boardArray[i][i] != Sign.EMPTY)){
+                    counter++;
+                }
+                if(counter==size){
+                    if(boardArray[i][j]== Sign.CIRCLE){
+                        winner=Sign.CIRCLE;
+                    }else{
+                        winner=Sign.CROSS;
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean checkHorizontal(){
+        for (int i = 0; i < size; i++) {
+            int counter =1;
+            for (int j = 0; j < size-1; j++) {
+                if((boardArray[j][i] == boardArray[j+1][i])&&
+                        (boardArray[i][i] != Sign.EMPTY)){
+                    counter++;
+                }
+                if(counter==size){
+                    if(boardArray[j][i]== Sign.CIRCLE){
+                        winner=Sign.CIRCLE;
+                    }else{
+                        winner=Sign.CROSS;
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean checkFirstDiagonal(){
+        int Xsum = 0;
+        int Osum = 0;
+        for (int i = 0; i < size; i++) {
+            if(getSignAt(i, i) == Sign.CROSS){
+                Xsum++;
+            }
+            if(getSignAt(i, i) == Sign.CIRCLE){
+                Osum++;
+            }
+        }
+        if (Xsum == size) {
+            winner = Sign.CROSS;
+            return true;
+        } else if (Osum == size) {
+            winner = Sign.CIRCLE;
+            return true;
+        }
+        return false;
+    }
+    private boolean checkSecondDiagonal(){
+        int Xsum = 0;
+        int Osum = 0;
+        for (int i = 0; i < size; i++) {
+            if(getSignAt(i, size-1-i) == Sign.CROSS){
+                Xsum++;
+            }
+            if(getSignAt(i, size-1-i) == Sign.CIRCLE){
+                Osum++;
+            }
+        }
+        if (Xsum == size) {
+            winner = Sign.CROSS;
+            return true;
+        } else if (Osum == size) {
+            winner = Sign.CIRCLE;
+            return true;
+        }
+        return false;
+    }
+    private boolean checkDraw(){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if(boardArray[i][j] == Sign.EMPTY){
+                    return false;
+                }
+            }
+        }
+        winner=Sign.EMPTY;
+        return true;
+    }
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();

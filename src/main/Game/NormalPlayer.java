@@ -23,4 +23,8 @@ public class NormalPlayer implements Player {
         }
 
     }
+    @Override
+    public void makeMove(Board board, Sign sign, int x, int y){
+        board.setChoice(x,y,sign);
+    }
 }

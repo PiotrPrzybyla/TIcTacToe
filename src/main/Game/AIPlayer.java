@@ -6,15 +6,15 @@ public class AIPlayer implements Player {
 
     @Override
     public void makeMove(Board board, Sign sign) {
-        Sign[][] currentArray = new Sign[board.getSize()][board.getSize()];
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                currentArray[i][j] = board.getBoardArray()[i][j];
-            }
-        }
+
 //        int[] choice = MiniMax.getBestMove(board, currentArray);
         int[] choice = AlphaBeta.getBestMove(board);
 //        board.setBoardArray(currentArray);
         board.setChoice(choice[0], choice[1], sign);
+    }
+
+    @Override
+    public void makeMove(Board board, Sign sign, int x, int y) {
+
     }
 }
